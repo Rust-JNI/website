@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get a license</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<nav class="site">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
+    <div class="links">
+      <a href="/docs.html">Docs</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/#defeats">Threat model</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="padding-bottom: 20px;">
+  <div class="wrap">
+    <div class="offset"><span>Checkout</span></div>
+    <h1 style="max-width: none; font-size: 2rem;">Get a license.</h1>
+  </div>
+</header>
+
+<section style="padding-top: 8px;">
+  <div class="wrap" style="max-width: 560px;">
+    <div class="notice warn" style="margin-bottom: 24px;">
+      This is a placeholder checkout. No payment is processed and no license is issued. Real
+      purchasing is wired to a licensing platform once that work is done.
+    </div>
+
+    <div class="manifest" id="planSelect">
+      <div class="head"><span>manifest.txt</span><span>draft</span></div>
+      <div class="body">
+        <div class="field">
+          <label for="plan">Plan</label>
+          <select id="plan">
+            <option value="indie" data-price="149">Indie, $149 per project per year</option>
+            <option value="team" data-price="499">Team, $499 per project per year</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="project">Project name</label>
+          <input type="text" id="project" placeholder="acme-launcher">
+        </div>
+        <div class="line total tnum">
+          <span>total (demo)</span><span id="totalPrice">$149.00</span>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 20px; border: none;" onclick="submitDemo()">Continue, demo only</button>
+      </div>
+    </div>
+
+    <div class="manifest" id="confirmBox" hidden>
+      <div class="head"><span>manifest.txt</span><span>demo</span></div>
+      <div class="body">
+        <h3 style="font-size: 1rem; margin-bottom: 12px;">This is a demo.</h3>
+        <p style="color: var(--ink-dim); font-size: 0.92rem;">
+          Nothing was charged and no license key was issued. Real checkout is not wired up yet.
+          When it is, this is where you would land after a successful purchase, with a license
+          key and a download link for the protection tool.
+        </p>
+        <a href="/pricing.html" class="btn btn-line" style="width: 100%; text-align: center; display: block; margin-top: 18px;">Back to pricing</a>
+      </div>
+    </div>
+
+    <p class="center" style="color: var(--ink-dimmer); font-size: 0.85rem; margin-top: 24px; max-width: none;">
+      Prefer to talk first? <a href="mailto:hello@rjni.dev">hello@rjni.dev</a>
+    </p>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
+      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <a href="/docs.html">Docs</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/purchase.html">Get a license</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/legal/terms.html">Terms</a>
+      <a href="/legal/privacy.html">Privacy</a>
+      <a href="/legal/cookies.html">Cookies</a>
+      <a href="/legal/refund.html">Refunds</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@rjni.dev">hello@rjni.dev</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('plan').addEventListener('change', function () {
+    var price = this.options[this.selectedIndex].getAttribute('data-price');
+    document.getElementById('totalPrice').textContent = '$' + parseFloat(price).toFixed(2);
+  });
+
+  var params = new URLSearchParams(window.location.search);
+  var initialPlan = params.get('plan');
+  if (initialPlan) {
+    var select = document.getElementById('plan');
+    for (var i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === initialPlan) {
+        select.selectedIndex = i;
+        select.dispatchEvent(new Event('change'));
+      }
+    }
+  }
+
+  function submitDemo() {
+    document.getElementById('planSelect').hidden = true;
+    document.getElementById('confirmBox').hidden = false;
+  }
+</script>
+
+</body>
+</html>

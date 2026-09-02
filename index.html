@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RJNI</title>
+<meta name="description" content="RJNI compiles Java bytecode to a native library and obfuscates what is left, so a decompiler sees a stub instead of your source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<nav class="site">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
+    <div class="links">
+      <a href="/docs.html">Docs</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/#defeats">Threat model</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="offset">
+      <span>0x0000</span>
+      <span class="tag">CAFEBABE</span>
+      <span>major=70 minor=0</span>
+      <span>JDK 8 through 26</span>
+    </div>
+    <h1>Your Java, compiled to native. Not just renamed.</h1>
+    <p class="lede">
+      RJNI translates real JVM bytecode into a Rust <code>cdylib</code> and relinks it back in
+      through JNI, then obfuscates whatever is left. A decompiler does not see confusing code.
+      It sees a method with no body at all.
+    </p>
+    <div class="actions">
+      <a href="/purchase.html" class="btn btn-primary">Get a license</a>
+      <a href="/docs.html" class="btn btn-line">Read the docs</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The pipeline</h2>
+      <span class="index tnum">8 independent passes</span>
+    </div>
+    <p class="section-note">
+      Each protection feature is its own pass, chained in order. Nothing below is planned. Every
+      row runs in the current build.
+    </p>
+    <div class="listing">
+      <div class="row">
+        <span class="off">0x00</span>
+        <h3>Nativization</h3>
+        <p>Eligible methods are translated to Rust, compiled to a real <code>cdylib</code>, and
+        relinked through <code>RegisterNatives</code>. The method body is not in the jar anymore.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x08</span>
+        <h3>Name obfuscation</h3>
+        <p>Classes, and non-private methods and fields wherever a hierarchy is provably
+        self-contained, get short opaque names, not your original API surface.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x10</span>
+        <h3>String encryption</h3>
+        <p>String constants are encrypted per build and decrypted at runtime. A raw scan of the
+        jar or the compiled native library does not recover them.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x18</span>
+        <h3>Control-flow flattening</h3>
+        <p>Eligible methods get their control flow rewritten into an encrypted dispatch table,
+        defeating a plain reconstruction of the original graph.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x20</span>
+        <h3>Decompiler crashers</h3>
+        <p>Bytecode shapes specifically chosen to make common decompilers fail or produce
+        garbage, not just harder to follow.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x28</span>
+        <h3>Anti-tamper and anti-debug</h3>
+        <p>Per-class checksums catch a patched class file at load time. A JDWP check catches an
+        attached debugger. Both fail loudly, not silently.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x30</span>
+        <h3>Resource encryption</h3>
+        <p>Bundled resources loaded through <code>getResourceAsStream</code> are transparently
+        encrypted and decrypted at the call site.</p>
+      </div>
+      <div class="row">
+        <span class="off">0x38</span>
+        <h3>Loader hardening</h3>
+        <p>The injected runtime bootstrap classes are renamed and protected through the same
+        pipeline as your own code, not left as an unobfuscated giveaway.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="raised" id="defeats">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Threat model</h2>
+      <span class="index">stated plainly</span>
+    </div>
+    <p class="section-note">
+      This is a tier-one protection posture. It raises the bar for a casual to moderate attacker.
+      It is not a claim of unbreakable, and nothing below pretends otherwise.
+    </p>
+    <div class="wrap-scroll">
+    <table class="compare">
+      <thead>
+        <tr><th>Threat</th><th>Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Casual decompilation (CFR, Fernflower, JD-GUI)</td><td><span class="verdict v-yes">DEFEATED</span> no method body to decompile, several decompilers crash outright on the surrounding shell</td></tr>
+        <tr><td>Raw scan for string literals</td><td><span class="verdict v-yes">DEFEATED</span> string constants are encrypted, verified against the actual compiled output</td></tr>
+        <tr><td>Class, method, and field name reading</td><td><span class="verdict v-yes">DEFEATED</span> wherever a hierarchy is self-contained; JDK-facing names are conservatively left alone rather than risk breaking your program</td></tr>
+        <tr><td>Casual bytecode patching</td><td><span class="verdict v-yes">DEFEATED</span> anti-tamper checksums fail loudly at load time</td></tr>
+        <tr><td>An attached debugger (JDWP)</td><td><span class="verdict v-yes">DEFEATED</span> detected, fails loudly</td></tr>
+        <tr><td>A determined reverse engineer with the compiled library and unlimited time</td><td><span class="verdict v-no">OUT OF SCOPE</span> see the FAQ</td></tr>
+        <tr><td>An attacker who reimplements this exact loader logic</td><td><span class="verdict v-partial">PARTIAL</span> raises the bar, does not remove the seam. Same posture as every native-code obfuscator on the market</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>FAQ</h2>
+      <span class="index">6 entries</span>
+    </div>
+    <div class="faq-item">
+      <h3>Versus GraalVM native-image</h3>
+      <p>native-image compiles your whole application ahead of time into one standalone
+      executable. It is a deployment and startup-time tool with real constraints on reflection,
+      dynamic class loading, and JVM feature coverage. RJNI does the opposite trade: your jar
+      stays a normal jar on a normal JVM, and only the methods safe to translate get nativized.
+      Reflection, dynamic loading, your existing deployment: all untouched. native-image aims for
+      faster startup and a smaller footprint. RJNI aims to make compiled logic hard to read while
+      the jar keeps behaving exactly like a jar.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does this make code faster</h3>
+      <p>No, and it is not trying to. Crossing the JNI boundary has a real, mostly fixed cost per
+      call. A trivial method that is mostly overhead can see a real slowdown; a method doing
+      meaningful work sees a much smaller relative cost. Treat any speed change as a side effect,
+      not the point.</p>
+    </div>
+    <div class="faq-item">
+      <h3>JDK version support</h3>
+      <p>Class file major versions 52 through 70: JDK 8 through JDK 26.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Reflection, proxies, and frameworks</h3>
+      <p>RJNI ships pluggable exclusion profiles for the common cases: reflection by name,
+      <code>ServiceLoader</code>, JPMS module descriptors, and common proxy-framework internals.
+      Matched code is excluded from nativization and renaming rather than silently broken. Custom
+      keep rules cover anything the built-in profiles do not.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Platform coverage</h3>
+      <p>Windows, macOS (Intel and Apple Silicon), and Linux x86-64/ARM64. Coverage is tiered
+      honestly in the docs: stable versus experimental, not one blanket claim.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Code signing</h3>
+      <p>The output is not signed. RJNI ships a jar with a bundled native library, loaded
+      in-process through <code>System.load()</code> from already-running JVM code. The
+      shell-launched-executable warning that Windows SmartScreen and macOS Gatekeeper apply does
+      not target this shape. The one real exception is macOS quarantine on a browser-downloaded
+      jar, which has a documented one-line workaround.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
+      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <a href="/docs.html">Docs</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/purchase.html">Get a license</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/legal/terms.html">Terms</a>
+      <a href="/legal/privacy.html">Privacy</a>
+      <a href="/legal/cookies.html">Cookies</a>
+      <a href="/legal/refund.html">Refunds</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@rjni.dev">hello@rjni.dev</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

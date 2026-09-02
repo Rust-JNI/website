@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<nav class="site">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
+    <div class="links">
+      <a href="/docs.html">Docs</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/#defeats">Threat model</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+  </div>
+</nav>
+
+<section style="padding-top: 44px;">
+  <div class="wrap docs-layout">
+    <nav class="docs-nav">
+      <a href="#getting-started">Getting started</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#exclusions">Exclusions</a>
+      <a href="#platforms">Platforms</a>
+      <a href="#trial-mode">Trial mode</a>
+      <a href="#limitations">Limitations</a>
+    </nav>
+
+    <div class="docs-content">
+      <h2 id="getting-started" class="mt-0">Getting started</h2>
+      <p>RJNI takes a built jar and produces a protected jar. It does not touch your build process
+      beyond that one extra step. Run it after your normal package or assemble step, before you
+      ship the artifact.</p>
+      <pre>rjni protect --in build/libs/app.jar --out build/libs/app-protected.jar</pre>
+      <p>The protected jar is a drop-in replacement: same entry point, same public behavior. It
+      runs on an ordinary JVM. Nothing about how you deploy or launch it changes.</p>
+
+      <h2 id="how-it-works">How it works</h2>
+      <p>Every eligible method is translated to a Rust intermediate representation, compiled to a
+      native <code>cdylib</code>, and relinked into your class through JNI's
+      <code>RegisterNatives</code>. The method's bytecode is gone from the jar. A decompiler sees
+      a native method declaration with no body. On top of that, a chain of independent protection
+      passes runs: name obfuscation, string encryption, control-flow flattening, decompiler
+      crashers, anti-tamper checksums, and anti-debug detection. Each pass is self-contained, so a
+      class that opts out of nativization can still be renamed and have its strings encrypted.</p>
+
+      <h2 id="exclusions">Exclusions and keep rules</h2>
+      <p>Not everything can be safely translated or renamed. RJNI ships pluggable exclusion
+      profiles for the common cases: reflection by name (<code>Class.forName</code>),
+      <code>ServiceLoader</code> provider lookups, JPMS <code>module-info</code> descriptors, and
+      common proxy-framework internals (Spring AOP, CGLIB and ByteBuddy-style subclassing). A
+      class or method a profile excludes is left untouched, written through to the output jar
+      byte for byte.</p>
+      <p>If your project needs something the built-in profiles do not cover, add your own keep
+      rules:</p>
+      <pre>rjni protect --in app.jar --out app-protected.jar --keep "com.example.plugins.**"</pre>
+
+      <h2 id="platforms">Platform support</h2>
+      <p>Class file major versions 52 through 70 (JDK 8 through 26) are supported. Native library
+      targets:</p>
+      <ul>
+        <li>macOS: Apple Silicon (stable), Intel (stable)</li>
+        <li>Windows: x86-64 (stable)</li>
+        <li>Linux: x86-64 (stable), ARM64 (experimental)</li>
+      </ul>
+      <p>One shared native library is built per platform and architecture combination in your
+      build matrix and bundled into the output jar as a resource. The correct one loads
+      automatically at runtime based on the host it runs on.</p>
+
+      <h2 id="trial-mode">Trial mode</h2>
+      <p>Pass <code>--trial</code> to protect only a deterministic subset of eligible classes
+      instead of the whole jar: enough to see the pipeline working end to end on a real build
+      before fully committing.</p>
+      <pre>rjni protect --in app.jar --out app-trial.jar --trial 0.2</pre>
+
+      <h2 id="limitations">Known limitations</h2>
+      <p>Documented directly, not left implicit:</p>
+      <ul>
+        <li>A class with any external (JDK or third-party library) supertype or interface only
+        gets the conservative, private-members-only renaming slice. Not a bug, a deliberate
+        correctness boundary.</li>
+        <li>Method and field names, and JVM type descriptors, for nativized methods are
+        structurally visible in the compiled native library. <code>RegisterNatives</code> is a
+        name-based API and there is no way around that without abandoning JNI entirely.</li>
+        <li>A handful of bytecode shapes are not yet supported and are cleanly rejected rather
+        than mistranslated. See the changelog for the current list.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
+      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <a href="/docs.html">Docs</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/purchase.html">Get a license</a>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <a href="/legal/terms.html">Terms</a>
+      <a href="/legal/privacy.html">Privacy</a>
+      <a href="/legal/cookies.html">Cookies</a>
+      <a href="/legal/refund.html">Refunds</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@rjni.dev">hello@rjni.dev</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
