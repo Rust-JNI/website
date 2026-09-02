@@ -3,67 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cookie Policy</title>
+<script>(function(){try{var t=localStorage.getItem('rjni-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<title>Cookie Policy — RJNI</title>
+<meta name="description" content="RJNI's Cookie Policy.">
+<meta property="og:title" content="Cookie Policy — RJNI">
+<meta property="og:description" content="RJNI's Cookie Policy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rjni.dev/legal/cookies.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&family=Josefin+Sans:wght@600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <nav class="site">
-  <div class="wrap">
-    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
-    <div class="links">
-      <a href="/docs.html">Docs</a>
+  <div class="nav-inner">
+    <a href="/" class="brand">RJNI</a>
+    <div class="nav-links">
+      <a href="/#proof">Product</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+    <div class="nav-right">
+      <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Toggle colour theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="/pricing.html" class="btn btn-primary btn-sm desktop-only">View pricing</a>
+      <button type="button" class="icon-btn nav-toggle" data-nav-toggle aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </nav>
 
-<section style="padding-top: 52px;">
-  <div class="wrap legal-content">
-    <span class="doc-id">RJNI-COOK-01</span>
-    <h1 class="mt-0">Cookie Policy</h1>
-    <p class="updated">Draft, last updated 2 September 2026. This is a template pending final legal review. It is not binding until published as final.</p>
+<div id="mobileNav" hidden>
+  <div class="wrap">
+    <a href="/#proof">Product</a>
+    <a href="/#how-it-works">How it works</a>
+    <a href="/#compatibility">Compatibility</a>
+    <a href="/docs.html">Documentation</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/pricing.html" class="btn btn-primary btn-block">View pricing</a>
+  </div>
+</div>
 
-    <p>This page explains how rjni.dev uses cookies and similar storage.</p>
+<section style="padding-top: 48px;">
+  <div class="wrap legal-shell">
+    <nav class="legal-toc" aria-label="Cookie Policy, on this page">
+      <h5>On this page</h5>
+      <a href="#today">1. What this site sets today</a>
+      <a href="#later">2. What might be added later</a>
+      <a href="#managing">3. Managing cookies</a>
+      <a href="#contact">4. Contact</a>
+    </nav>
+    <div class="legal-content">
+      <span class="doc-id">RJNI-COOK-01</span>
+      <h1 class="mt-0">Cookie Policy</h1>
+      <p class="updated">Draft, last updated 2 September 2026. This is a template pending final legal review. It is not binding until published as final.</p>
 
-    <h2>1. What this site sets today</h2>
-    <p><strong>Nothing.</strong> rjni.dev is currently a set of static pages with no accounts, no
-    server-side sessions, and no analytics or tracking of any kind. We do not set a single cookie
-    today. This page exists so that changes, if any, get documented here first rather than
-    silently.</p>
+      <p>This page explains how rjni.dev uses cookies and similar storage.</p>
 
-    <h2>2. What might be added later</h2>
-    <p>When real checkout goes live (see our <a href="/legal/terms.html">Terms of Service</a>),
-    our payment processor will very likely set its own strictly necessary cookies to run checkout
-    securely: standard for any payment flow, and unrelated to tracking. If we ever add analytics,
-    it will be listed here with what it collects and, where consent is legally required, a way to
-    decline it. We do not run third-party advertising cookies, and we do not sell any data to
-    third parties.</p>
+      <h2 id="today">1. What this site sets today</h2>
+      <p><strong>Nothing.</strong> rjni.dev is currently a set of static pages with no accounts, no
+      server-side sessions, and no analytics or tracking of any kind. We do not set a single cookie
+      today. The theme switcher on this site stores your light/dark preference in your browser's own
+      local storage, not a cookie, and that preference is never sent to us. This page exists so that
+      changes, if any, get documented here first rather than silently.</p>
 
-    <h2>3. Managing cookies</h2>
-    <p>You can block or delete cookies through your browser's settings at any time.</p>
+      <h2 id="later">2. What might be added later</h2>
+      <p>When real checkout goes live (see our <a href="/legal/terms.html">Terms of Service</a>),
+      our payment processor will very likely set its own strictly necessary cookies to run checkout
+      securely: standard for any payment flow, and unrelated to tracking. If we ever add analytics,
+      it will be listed here with what it collects and, where consent is legally required, a way to
+      decline it. We do not run third-party advertising cookies, and we do not sell any data to
+      third parties.</p>
 
-    <h2>4. Contact</h2>
-    <p>Questions: <a href="mailto:privacy@rjni.dev">privacy@rjni.dev</a>. See also our
-    <a href="/legal/privacy.html">Privacy Policy</a>.</p>
+      <h2 id="managing">3. Managing cookies</h2>
+      <p>You can block or delete cookies through your browser's settings at any time.</p>
+
+      <h2 id="contact">4. Contact</h2>
+      <p>Questions: <a href="mailto:privacy@rjni.dev">privacy@rjni.dev</a>. See also our
+      <a href="/legal/privacy.html">Privacy Policy</a>.</p>
+    </div>
   </div>
 </section>
 
 <footer class="site">
-  <div class="wrap">
-    <div>
-      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
-      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="brand">RJNI</a>
+      <p class="footer-tagline">A Java native obfuscator. Bytecode to Rust, compiled, relinked through JNI. rjni.dev</p>
     </div>
     <div>
       <h4>Product</h4>
-      <a href="/docs.html">Docs</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/purchase.html">Get a license</a>
     </div>
     <div>
       <h4>Legal</h4>
@@ -79,5 +119,6 @@
   </div>
 </footer>
 
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

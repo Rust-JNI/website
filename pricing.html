@@ -3,113 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pricing</title>
+<script>(function(){try{var t=localStorage.getItem('rjni-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<title>Pricing — RJNI</title>
+<meta name="description" content="How RJNI licensing works: per-project terms, activation limits, support tiers, and what's still to be confirmed.">
+<meta property="og:title" content="Pricing — RJNI">
+<meta property="og:description" content="How RJNI licensing works: per-project terms, activation limits, support tiers, and what's still to be confirmed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rjni.dev/pricing.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&family=Josefin+Sans:wght@600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <nav class="site">
-  <div class="wrap">
-    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
-    <div class="links">
-      <a href="/docs.html">Docs</a>
+  <div class="nav-inner">
+    <a href="/" class="brand">RJNI</a>
+    <div class="nav-links">
+      <a href="/#proof">Product</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/#defeats">Threat model</a>
-      <a href="/#faq">FAQ</a>
-      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+    <div class="nav-right">
+      <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Toggle colour theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="/pricing.html" class="btn btn-primary btn-sm desktop-only">View pricing</a>
+      <button type="button" class="icon-btn nav-toggle" data-nav-toggle aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </nav>
 
+<div id="mobileNav" hidden>
+  <div class="wrap">
+    <a href="/#proof">Product</a>
+    <a href="/#how-it-works">How it works</a>
+    <a href="/#compatibility">Compatibility</a>
+    <a href="/docs.html">Documentation</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/pricing.html" class="btn btn-primary btn-block">View pricing</a>
+  </div>
+</div>
+
 <header class="hero" style="padding-bottom: 20px;">
   <div class="wrap">
-    <div class="offset"><span>Pricing</span></div>
-    <h1 style="max-width: none; font-size: 2rem;">Per-project licensing.</h1>
-    <p class="lede">No revenue share. No runtime call-home beyond license validation itself.</p>
+    <div class="hero-kicker">Pricing</div>
+    <h1 style="max-width: none; font-family: var(--sans); font-weight: 650; font-size: 2.1rem;">Per-project licensing.</h1>
+    <p class="lede">
+      A licence covers a project — a codebase you ship — not a blanket seat count. No revenue
+      share, and no runtime call-home beyond the licence check itself.
+    </p>
   </div>
 </header>
 
 <section style="padding-top: 8px;">
   <div class="wrap">
+    <div class="notice warn" style="margin-bottom: 32px;">
+      <strong>Pricing to be confirmed.</strong> RJNI has not set final prices. The structure below
+      — what a project means, what an activation means, what each tier includes — reflects real
+      product decisions already made. The amounts themselves have not.
+    </div>
+
     <div class="wrap-scroll">
-    <table class="spec">
+    <table class="price-table">
       <thead>
         <tr>
           <th></th>
           <th class="plan-col">Indie</th>
-          <th class="plan-col featured">Team</th>
+          <th class="plan-col">Team</th>
           <th class="plan-col">Enterprise</th>
         </tr>
       </thead>
       <tbody>
         <tr class="price-row">
           <th>Price</th>
-          <td class="cell"><span class="amount">$149</span><span class="per">per project, per year</span></td>
-          <td class="cell featured"><span class="amount">$499</span><span class="per">per project, per year</span></td>
+          <td class="cell"><span class="amount">TBC</span><span class="per">per project, per year</span></td>
+          <td class="cell"><span class="amount">TBC</span><span class="per">per project, per year</span></td>
           <td class="cell"><span class="amount">Contact us</span><span class="per">custom terms</span></td>
+        </tr>
+        <tr>
+          <th>Projects covered</th>
+          <td class="cell">1</td>
+          <td class="cell">1</td>
+          <td class="cell">Multiple, by agreement</td>
         </tr>
         <tr>
           <th>Device activations</th>
           <td class="cell">1</td>
-          <td class="cell featured">5</td>
+          <td class="cell">5</td>
           <td class="cell">Custom</td>
         </tr>
         <tr>
           <th>Platforms</th>
           <td class="cell">All supported</td>
-          <td class="cell featured">All supported</td>
           <td class="cell">All supported</td>
+          <td class="cell">All supported</td>
+        </tr>
+        <tr>
+          <th>Update entitlement</th>
+          <td class="cell">Included for the licence term</td>
+          <td class="cell">Included for the licence term</td>
+          <td class="cell">Included for the licence term</td>
         </tr>
         <tr>
           <th>Support</th>
           <td class="cell">Email</td>
-          <td class="cell featured">Priority email</td>
-          <td class="cell">Direct channel, SLA</td>
+          <td class="cell">Priority email</td>
+          <td class="cell">Direct channel, SLA by agreement</td>
         </tr>
         <tr>
           <th>Early access to new passes</th>
-          <td class="cell">-</td>
-          <td class="cell featured"><span class="yes">Included</span></td>
+          <td class="cell">—</td>
           <td class="cell"><span class="yes">Included</span></td>
-        </tr>
-        <tr>
-          <th>Multi-project licensing</th>
-          <td class="cell">-</td>
-          <td class="cell featured">-</td>
           <td class="cell"><span class="yes">Included</span></td>
         </tr>
         <tr class="cta-row">
           <td></td>
-          <td class="cell"><a href="/purchase.html?plan=indie" class="btn btn-line">Choose Indie</a></td>
-          <td class="cell featured"><a href="/purchase.html?plan=team" class="btn btn-primary">Choose Team</a></td>
-          <td class="cell"><a href="mailto:hello@rjni.dev?subject=Enterprise%20licensing" class="btn btn-line">Contact us</a></td>
+          <td class="cell"><a href="/purchase.html?plan=indie" class="btn btn-line btn-sm">Choose Indie</a></td>
+          <td class="cell"><a href="/purchase.html?plan=team" class="btn btn-line btn-sm">Choose Team</a></td>
+          <td class="cell"><a href="mailto:hello@rjni.dev?subject=Enterprise%20licensing" class="btn btn-line btn-sm">Contact us</a></td>
         </tr>
       </tbody>
     </table>
     </div>
+  </div>
+</section>
 
-    <div class="notice warn" style="margin-top: 28px;">
-      <strong>Placeholder pricing.</strong> These figures have not been set by an actual pricing
-      decision yet. If you are reading this note, they have not been replaced with confirmed
-      numbers.
+<section class="raised">
+  <div class="wrap">
+    <div class="section-head"><h2>How licensing works.</h2></div>
+    <div class="entry-list">
+      <div class="entry">
+        <h3>What counts as a project</h3>
+        <p>One project is one codebase you ship as a single product — not a fixed line count, and
+        not tied to a specific repository host. If you maintain several genuinely separate products,
+        each needs its own licence.</p>
+      </div>
+      <div class="entry">
+        <h3>Duration and renewal</h3>
+        <p>Licences run for a fixed term, currently annual. Renewing continues protection for
+        future builds; it does not retroactively affect a jar you've already shipped under a
+        previous term.</p>
+      </div>
+      <div class="entry">
+        <h3>Device activations</h3>
+        <p>A device activation is a machine authorised to run RJNI against your project — a
+        developer workstation or a CI runner. Indie includes one; Team includes five. You can
+        deactivate a device and activate another in its place.</p>
+      </div>
+      <div class="entry">
+        <h3>Platform coverage</h3>
+        <p>Every plan includes every platform RJNI supports — see <a href="/#compatibility">Compatibility</a>
+        for exactly what that means today, including which targets are verified versus planned.</p>
+      </div>
+      <div class="entry">
+        <h3>Support</h3>
+        <p>Indie and Team both get email support, with Team prioritised. Enterprise terms — a
+        direct channel and a response-time SLA — are agreed individually, since they depend on
+        what you actually need.</p>
+      </div>
+      <div class="entry">
+        <h3>Business and enterprise</h3>
+        <p>Multiple projects under one agreement, custom activation limits, or a support SLA: email
+        <a href="mailto:hello@rjni.dev?subject=Enterprise%20licensing">hello@rjni.dev</a> directly
+        rather than using the standard checkout.</p>
+      </div>
+      <div class="entry">
+        <h3>Evaluation before you buy</h3>
+        <p>Trial mode protects a deterministic, reproducible subset of your own project's eligible
+        classes, so you can inspect real output — renamed classes, encrypted strings, nativized
+        methods — before licensing the full build. See the <a href="/docs.html#configuration">trial
+        mode documentation</a>.</p>
+      </div>
+      <div class="entry">
+        <h3>Refunds</h3>
+        <p>See the <a href="/legal/refund.html">Refund Policy</a> for the current terms, including
+        the 14-day window.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<footer class="site">
+<section class="tight">
   <div class="wrap">
-    <div>
-      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
-      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+    <p class="section-note" style="margin: 0;">
+      Also relevant: <a href="/legal/terms.html">Terms of Service</a> ·
+      <a href="/legal/privacy.html">Privacy Policy</a> ·
+      <a href="/legal/refund.html">Refund Policy</a>
+    </p>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="brand">RJNI</a>
+      <p class="footer-tagline">A Java native obfuscator. Bytecode to Rust, compiled, relinked through JNI. rjni.dev</p>
     </div>
     <div>
       <h4>Product</h4>
-      <a href="/docs.html">Docs</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/purchase.html">Get a license</a>
     </div>
     <div>
       <h4>Legal</h4>
@@ -125,5 +227,6 @@
   </div>
 </footer>
 
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

@@ -3,112 +3,362 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Docs</title>
+<script>(function(){try{var t=localStorage.getItem('rjni-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<title>Documentation — RJNI</title>
+<meta name="description" content="RJNI documentation: pipeline, protection passes, compatibility, configuration, build integration, security model, and limitations.">
+<meta property="og:title" content="Documentation — RJNI">
+<meta property="og:description" content="RJNI documentation: pipeline, protection passes, compatibility, configuration, build integration, security model, and limitations.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rjni.dev/docs.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&family=Josefin+Sans:wght@600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <nav class="site">
-  <div class="wrap">
-    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
-    <div class="links">
-      <a href="/docs.html">Docs</a>
+  <div class="nav-inner">
+    <a href="/" class="brand">RJNI</a>
+    <div class="nav-links">
+      <a href="/#proof">Product</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/#defeats">Threat model</a>
-      <a href="/#faq">FAQ</a>
-      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+    <div class="nav-right">
+      <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Toggle colour theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="/pricing.html" class="btn btn-primary btn-sm desktop-only">View pricing</a>
+      <button type="button" class="icon-btn nav-toggle" data-nav-toggle aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </nav>
 
-<section style="padding-top: 44px;">
-  <div class="wrap docs-layout">
-    <nav class="docs-nav">
-      <a href="#getting-started">Getting started</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#exclusions">Exclusions</a>
-      <a href="#platforms">Platforms</a>
-      <a href="#trial-mode">Trial mode</a>
-      <a href="#limitations">Limitations</a>
-    </nav>
+<div id="mobileNav" hidden>
+  <div class="wrap">
+    <a href="/#proof">Product</a>
+    <a href="/#how-it-works">How it works</a>
+    <a href="/#compatibility">Compatibility</a>
+    <a href="/docs.html">Documentation</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/pricing.html" class="btn btn-primary btn-block">View pricing</a>
+  </div>
+</div>
 
-    <div class="docs-content">
-      <h2 id="getting-started" class="mt-0">Getting started</h2>
-      <p>RJNI takes a built jar and produces a protected jar. It does not touch your build process
-      beyond that one extra step. Run it after your normal package or assemble step, before you
-      ship the artifact.</p>
-      <pre>rjni protect --in build/libs/app.jar --out build/libs/app-protected.jar</pre>
-      <p>The protected jar is a drop-in replacement: same entry point, same public behavior. It
-      runs on an ordinary JVM. Nothing about how you deploy or launch it changes.</p>
+<section style="padding-top: 40px;">
+  <div class="wrap">
 
-      <h2 id="how-it-works">How it works</h2>
-      <p>Every eligible method is translated to a Rust intermediate representation, compiled to a
-      native <code>cdylib</code>, and relinked into your class through JNI's
-      <code>RegisterNatives</code>. The method's bytecode is gone from the jar. A decompiler sees
-      a native method declaration with no body. On top of that, a chain of independent protection
-      passes runs: name obfuscation, string encryption, control-flow flattening, decompiler
-      crashers, anti-tamper checksums, and anti-debug detection. Each pass is self-contained, so a
-      class that opts out of nativization can still be renamed and have its strings encrypted.</p>
+    <details class="mobile-docs-nav">
+      <summary>On this page</summary>
+      <div class="group-list">
+        <a href="#getting-started">Getting started</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#protection-passes">Protection passes</a>
+        <a href="#compatibility">Compatibility &amp; exclusions</a>
+        <a href="#configuration">Configuration</a>
+        <a href="#build-integration">Build integration</a>
+        <a href="#security-model">Security model</a>
+        <a href="#limitations">Known limitations</a>
+        <a href="#licensing">Licensing</a>
+      </div>
+    </details>
 
-      <h2 id="exclusions">Exclusions and keep rules</h2>
-      <p>Not everything can be safely translated or renamed. RJNI ships pluggable exclusion
-      profiles for the common cases: reflection by name (<code>Class.forName</code>),
-      <code>ServiceLoader</code> provider lookups, JPMS <code>module-info</code> descriptors, and
-      common proxy-framework internals (Spring AOP, CGLIB and ByteBuddy-style subclassing). A
-      class or method a profile excludes is left untouched, written through to the output jar
-      byte for byte.</p>
-      <p>If your project needs something the built-in profiles do not cover, add your own keep
-      rules:</p>
-      <pre>rjni protect --in app.jar --out app-protected.jar --keep "com.example.plugins.**"</pre>
+    <div class="docs-shell">
+      <nav class="docs-sidebar desktop-only" aria-label="Documentation">
+        <div class="group">
+          <h5>Start</h5>
+          <a href="#getting-started">Getting started</a>
+          <a href="#how-it-works">How it works</a>
+        </div>
+        <div class="group">
+          <h5>Reference</h5>
+          <a href="#protection-passes">Protection passes</a>
+          <a href="#compatibility">Compatibility &amp; exclusions</a>
+          <a href="#configuration">Configuration</a>
+          <a href="#build-integration">Build integration</a>
+        </div>
+        <div class="group">
+          <h5>Trust</h5>
+          <a href="#security-model">Security model</a>
+          <a href="#limitations">Known limitations</a>
+        </div>
+        <div class="group">
+          <h5>Account</h5>
+          <a href="#licensing">Licensing</a>
+        </div>
+      </nav>
 
-      <h2 id="platforms">Platform support</h2>
-      <p>Class file major versions 52 through 70 (JDK 8 through 26) are supported. Native library
-      targets:</p>
-      <ul>
-        <li>macOS: Apple Silicon (stable), Intel (stable)</li>
-        <li>Windows: x86-64 (stable)</li>
-        <li>Linux: x86-64 (stable), ARM64 (experimental)</li>
-      </ul>
-      <p>One shared native library is built per platform and architecture combination in your
-      build matrix and bundled into the output jar as a resource. The correct one loads
-      automatically at runtime based on the host it runs on.</p>
+      <div class="docs-content">
 
-      <h2 id="trial-mode">Trial mode</h2>
-      <p>Pass <code>--trial</code> to protect only a deterministic subset of eligible classes
-      instead of the whole jar: enough to see the pipeline working end to end on a real build
-      before fully committing.</p>
-      <pre>rjni protect --in app.jar --out app-trial.jar --trial 0.2</pre>
+        <h2 id="getting-started" class="mt-0">Getting started</h2>
+        <div class="callout warn">
+          <strong>Status.</strong> RJNI has not yet shipped a packaged, publicly installable build.
+          Everything on this page describes the tool's actual, verified pipeline and its intended
+          external interface — not a binary you can currently download. To discuss early access,
+          contact <a href="mailto:hello@rjni.dev">hello@rjni.dev</a>.
+        </div>
+        <p>Once packaged, RJNI is designed to run as one extra step after your normal build, against
+        an already-built JAR — it does not otherwise change your build process:</p>
+        <div class="pre-wrap"><pre>rjni protect --in build/libs/app.jar --out build/libs/app-protected.jar</pre></div>
+        <p>The output is a drop-in replacement JAR: same entry point, same public behaviour. It runs
+        on an ordinary JVM. Nothing about how you deploy or launch it changes. Optional flags for
+        trial mode, keep rules, and watermarking are covered under <a href="#configuration">Configuration</a>.</p>
 
-      <h2 id="limitations">Known limitations</h2>
-      <p>Documented directly, not left implicit:</p>
-      <ul>
-        <li>A class with any external (JDK or third-party library) supertype or interface only
-        gets the conservative, private-members-only renaming slice. Not a bug, a deliberate
-        correctness boundary.</li>
-        <li>Method and field names, and JVM type descriptors, for nativized methods are
-        structurally visible in the compiled native library. <code>RegisterNatives</code> is a
-        name-based API and there is no way around that without abandoning JNI entirely.</li>
-        <li>A handful of bytecode shapes are not yet supported and are cleanly rejected rather
-        than mistranslated. See the changelog for the current list.</li>
-      </ul>
+        <h2 id="how-it-works">How it works</h2>
+        <p>RJNI runs six stages over your JAR, in this order, every time:</p>
+        <ol>
+          <li><strong>Input and configuration</strong> — the JAR, an optional trial fraction, optional keep patterns, an optional watermark.</li>
+          <li><strong>Parsing and eligibility scan</strong> — every class is checked against the exclusion-profile registry and an interface check.</li>
+          <li><strong>Bytecode-level protection passes</strong> — class renaming, string encryption, method/field renaming, control-flow flattening, each an independent pass over the same class set.</li>
+          <li><strong>Per-method translation</strong> — every remaining method body is exported to an intermediate representation and checked for translatability.</li>
+          <li><strong>Native compilation and JNI relinking</strong> — translatable methods are compiled into one shared native library and bound via <code>RegisterNatives</code>.</li>
+          <li><strong>Finalisation and packaging</strong> — decompiler-resistant wrapping, anti-tamper checksums, anti-debug injection, resource encryption, watermark embedding, obfuscated native-library bundling, and runtime-class renaming, in that order, before the output JAR is written.</li>
+        </ol>
+        <p>A method that can't be safely translated is excluded with a specific, reported reason —
+        never silently mistranslated and never left to crash at runtime. See
+        <a href="#limitations">Known limitations</a> for the current list of excluded shapes.</p>
+
+        <h2 id="protection-passes">Protection passes reference</h2>
+        <p>Every pass below has been verified against real, unmodified third-party JARs — including
+        a six-project open-source corpus and a real, independent 1,200-class application — not only
+        against hand-built test fixtures.</p>
+
+        <h3 id="pp-nativization">Method nativization</h3>
+        <p><span class="tag tag-implemented">Implemented</span> Eligible method bodies are translated
+        to a Rust intermediate representation, compiled into the JAR's shared native library, and
+        bound to the class through JNI's <code>RegisterNatives</code>. The method is flipped to
+        <code>native</code> and its <code>Code</code> attribute is removed entirely — there is no
+        bytecode body left for a decompiler to reconstruct.</p>
+
+        <h3 id="pp-name-obfuscation">Class name obfuscation</h3>
+        <p><span class="tag tag-implemented">Implemented</span> Every eligible class is renamed into
+        one flat, opaque package using a constant-pool-aware bytecode remapper, which correctly
+        rewrites every reference to it — descriptors, signatures, inner-class metadata, annotation
+        values, and stack-map frames. A class referenced only by a <code>String</code> constant
+        (<code>Class.forName</code>, a <code>ServiceLoader</code> provider file) is excluded from
+        renaming, since a bytecode remapper cannot see, and therefore cannot safely rewrite, that
+        reference.</p>
+
+        <h3 id="pp-member-renaming">Method &amp; field renaming</h3>
+        <p><span class="tag tag-conditional">Conditional</span> Private methods and fields are always
+        renamed — a private member cannot be inherited or referenced from outside its declaring
+        class, so there is no dispatch ambiguity to resolve. Non-private, non-static instance
+        members are also renamed, but only where the member's entire ancestor chain — every
+        superclass and interface, recursively — resolves to classes inside the JAR being protected.
+        A class with any external supertype (a JDK class, a third-party library type) keeps the
+        conservative, private-only slice, since renaming it could silently break dispatch from code
+        this pass can't see. <code>static</code> members are never renamed by this pass, and neither
+        is any member of <code>java.lang.Object</code>'s own instance-method surface
+        (<code>equals</code>, <code>hashCode</code>, <code>toString</code>, and so on).</p>
+
+        <h3 id="pp-string-encryption">String &amp; constant encryption</h3>
+        <p><span class="tag tag-conditional">Conditional</span> Every <code>LDC</code> of a
+        <code>String</code> literal inside a method body is replaced with a per-string,
+        position-keyed obfuscated payload and a runtime decrypt call resolved at the point of use.
+        This runs before nativization in the pipeline, so a nativized method's compiled native code
+        never embeds the plaintext either — it calls back into the same decrypt routine. A
+        <code>static final String</code> field's own compile-time constant value is not covered:
+        other classes may already have inlined that plaintext into their own constant pool at their
+        own compile time, a copy this pass has no way to reach.</p>
+
+        <h3 id="pp-cff">Control-flow flattening</h3>
+        <p><span class="tag tag-conditional">Conditional</span> Rewrites a method's branches, jumps,
+        and fall-through into a single dispatcher table, without physically reordering blocks.
+        Excluded: constructors, any method with an existing exception handler, and — verified by a
+        real dataflow analysis before flattening is attempted — any method where a value crosses a
+        block boundary on the operand stack rather than through a local variable (a common shape for
+        a ternary expression used directly as an argument). These are conservative exclusions, not
+        silent failures.</p>
+
+        <h3 id="pp-decompiler-crashers">Decompiler-resistant wrapping</h3>
+        <p><span class="tag tag-implemented">Implemented</span> Every remaining, non-constructor
+        method body is wrapped in a whole-method <code>catch (Throwable t) { throw t; }</code>. This
+        cannot change observable behaviour — every path still terminates exactly as before — but
+        introduces a control-flow shape that common decompilers' structured-code reconstruction tend
+        to mishandle or render unreadably.</p>
+
+        <h3 id="pp-anti-tamper">Anti-tamper checksums</h3>
+        <p><span class="tag tag-implemented">Implemented</span> Every protected class's static
+        initialiser verifies its own current bytes against a SHA-256 checksum computed at
+        protect-time and stored in a separate bundled resource, throwing before any of the class's
+        own initialisation runs if the bytes don't match. This detects a class file edited in
+        isolation after protection — the common naive-patch pattern — not an attacker who edits the
+        checksum resource and the class together, or who modifies a running JVM directly.</p>
+
+        <h3 id="pp-anti-debug">Anti-debug detection</h3>
+        <p><span class="tag tag-conditional">Conditional</span> Every protected class's static
+        initialiser also checks for the standard JDWP debug-agent startup flags
+        (<code>-agentlib:jdwp</code>, <code>-Xrunjdwp</code>) and fails loudly if found. This is
+        deliberately narrow: it does not treat a general <code>-javaagent</code> as a signal, since
+        production JVMs commonly run legitimate APM or monitoring agents, and flagging those would
+        be a damaging false positive against your own production deployment.</p>
+
+        <h3 id="pp-resource-encryption">Resource &amp; asset encryption</h3>
+        <p><span class="tag tag-conditional">Conditional</span> Every
+        <code>Class#getResourceAsStream</code>/<code>ClassLoader#getResourceAsStream</code> call
+        site is redirected through a runtime loader that transparently decrypts a resource if, and
+        only if, it was encrypted at protect-time — otherwise it's a pure pass-through, so rewriting
+        every call site is always safe. A resource is only encrypted where a literal, statically
+        resolvable path argument positively attributes it to a call site inside the protected class
+        set. The <code>URL</code>-returning <code>getResource</code> form is not covered.</p>
+
+        <h3 id="pp-native-bundling">Native library bundling</h3>
+        <p><span class="tag tag-implemented">Implemented</span> The compiled native library is
+        stored at a random, per-build path with a <code>.dat</code> extension and obfuscated before
+        bundling, so the raw bytes carry no recognisable native-binary header and the bundled
+        artefact's path isn't identical across every RJNI-protected jar. This raises the bar against
+        a casual scan for a bundled native library; it does not resist an attacker who reads this
+        exact scheme and reimplements the reversal.</p>
+
+        <h3 id="pp-loader-hardening">Loader &amp; runtime class hardening</h3>
+        <p><span class="tag tag-implemented">Implemented</span> RJNI's own bundled bootstrap classes
+        — the native loader, string decryptor, tamper check, and their siblings — are renamed per
+        build into their own flat package, rather than shipping under a fixed, well-known name. The
+        one exception is a small, fixed manifest location every protected jar shares, since some
+        starting point has to be predictable for the loader to find its own configuration.</p>
+
+        <h3 id="pp-watermark">Build-time watermarking</h3>
+        <p><span class="tag tag-implemented">Implemented</span> An optional per-build identifier —
+        typically per-licensee — is embedded, obfuscated the same way the native library is, and can
+        be recovered from a jar file directly (reading the jar's own entries, not by running its
+        bytecode) for tracing a leaked copy back to whoever it was issued to.</p>
+
+        <h3 id="pp-keep-rules">Config-driven keep rules</h3>
+        <p><span class="tag tag-conditional">Conditional</span> Class-level patterns — an exact
+        class, a package and every subpackage (<code>pkg.**</code>), or the direct members of one
+        package (<code>pkg.*</code>) — exclude matching classes from renaming entirely. Member-level
+        keep rules (preserving specific fields or methods within an otherwise-renamed class) are not
+        yet supported.</p>
+
+        <h3 id="pp-trial-mode">Trial / evaluation mode</h3>
+        <p><span class="tag tag-implemented">Implemented</span> Protects a deterministic subset of
+        eligible classes — selected by sorted internal name, not at random — so a trial run on the
+        same input always produces the same output. Every unselected class is written through
+        byte-identical to the input.</p>
+
+        <h2 id="compatibility">Compatibility &amp; exclusions</h2>
+        <p>See the homepage <a href="/#compatibility">Compatibility</a> section for the full table.
+        In summary: class file major versions 52 through 70 (JDK 8 through JDK 26), verified against
+        a six-project open-source corpus spanning every in-scope JDK LTS release. Framework
+        exclusion profiles cover reflection-by-name, <code>ServiceLoader</code>, JPMS module
+        descriptors, Spring's own proxy internals, and the packaged internals of CGLIB, ByteBuddy,
+        Javassist, and Hibernate's bytecode provider.</p>
+        <div class="callout">
+          <strong>Not yet covered:</strong> bitwise/shift operators, <code>switch</code> statements,
+          unary negation, multi-dimensional array literals, block-level <code>synchronized</code>,
+          object reference-equality branches, and <code>StringConcatFactory</code>-based string
+          concatenation. A method using one of these is cleanly excluded from nativization with a
+          specific reason, not mistranslated.
+        </div>
+
+        <h2 id="configuration">Configuration</h2>
+        <p>Three optional controls, layered on top of the default full-protection run:</p>
+        <div class="pre-wrap"><pre>rjni protect --in app.jar --out app-protected.jar \
+  --trial 0.2 \
+  --keep keep-rules.txt \
+  --watermark "customer-42"</pre></div>
+        <p><strong>Trial fraction</strong> (<code>--trial</code>) protects a deterministic fraction
+        of eligible classes instead of the whole jar, for evaluation before a full licence.</p>
+        <p><strong>Keep rules</strong> (<code>--keep</code>) point at a plain-text file, one glob per
+        line, blank lines and <code>#</code> comments ignored:</p>
+        <div class="pre-wrap"><pre># exact class
+com.example.plugins.PluginApi
+
+# a package and every subpackage
+com.example.plugins.**
+
+# only the direct members of one package
+com.example.internal.*</pre></div>
+        <p><strong>Watermark</strong> (<code>--watermark</code>) embeds a per-build identifier,
+        recoverable later from the output jar's own entries without running it.</p>
+
+        <h2 id="build-integration">Build integration</h2>
+        <p>Today, RJNI runs as a JVM application against an input and output JAR path, invoked as
+        one step in a build pipeline. A packaged, standalone CLI binary, and build-tool plugins for
+        Gradle and Maven, are planned but not yet shipped — see the status callout under
+        <a href="#getting-started">Getting started</a>. Code signing (Authenticode on Windows,
+        notarization on macOS) is not required by RJNI's architecture: the output is a library
+        loaded in-process via <code>System.load()</code> from already-running JVM code, never a
+        shell-launched executable, so the launch-time "unverified developer" gate those mechanisms
+        exist to satisfy doesn't apply. The one real, user-fixable exception is macOS's quarantine
+        attribute on a jar downloaded through a browser, which can propagate to the extracted native
+        library on first load — resolved with a right-click-then-Open, or
+        <code>xattr -d com.apple.quarantine</code> on the jar.</p>
+
+        <h2 id="security-model">Security model</h2>
+        <p>See the homepage <a href="/#security">Security model and limitations</a> section for the
+        full adversary-tier table and the plainly stated list of what RJNI does and does not claim
+        to defend against. In short: RJNI is built to raise the cost of casual and moderately
+        motivated reverse engineering. It explicitly does not claim to defeat a determined attacker
+        with a disassembler, native-code expertise, and time against the compiled native library.</p>
+
+        <h2 id="limitations">Known limitations</h2>
+        <p>Documented directly, not left implicit:</p>
+        <ul>
+          <li>A nativized method's exact name and JVM descriptor are structurally visible as
+          plaintext inside the compiled native library — <code>RegisterNatives</code> is a
+          name-based JNI API, and there's no way around that without abandoning JNI as the
+          relinking mechanism entirely.</li>
+          <li>A class with any external (JDK or third-party) supertype or interface only receives
+          the conservative, private-members-only renaming slice.</li>
+          <li>A handful of bytecode shapes — listed under <a href="#compatibility">Compatibility</a>
+          — are not yet translated, and are cleanly excluded rather than mistranslated.</li>
+          <li>Multi-release JAR variant handling and Windows delete-on-close cleanup for the
+          extracted native library are designed but not yet implemented.</li>
+          <li>Layering RJNI's output with another obfuscator (or protecting another obfuscator's
+          output) is not verified in either direction.</li>
+        </ul>
+
+        <h2 id="licensing">Licensing</h2>
+        <p>A licence covers one project, for a fixed term, with a limited number of device
+        activations. Full structure, terms, and how to reach us for multi-project or enterprise
+        arrangements: <a href="/pricing.html">Pricing</a>.</p>
+
+        <div class="doc-prevnext">
+          <div></div>
+          <a class="next" href="/pricing.html"><span>Next</span>Pricing</a>
+        </div>
+      </div>
+
+      <aside class="docs-toc" aria-label="Protection passes, on this page">
+        <h5>Protection passes</h5>
+        <a href="#pp-nativization">Nativization</a>
+        <a href="#pp-name-obfuscation">Class name obfuscation</a>
+        <a href="#pp-member-renaming">Method &amp; field renaming</a>
+        <a href="#pp-string-encryption">String encryption</a>
+        <a href="#pp-cff">Control-flow flattening</a>
+        <a href="#pp-decompiler-crashers">Decompiler-resistant wrapping</a>
+        <a href="#pp-anti-tamper">Anti-tamper checksums</a>
+        <a href="#pp-anti-debug">Anti-debug detection</a>
+        <a href="#pp-resource-encryption">Resource encryption</a>
+        <a href="#pp-native-bundling">Native library bundling</a>
+        <a href="#pp-loader-hardening">Loader hardening</a>
+        <a href="#pp-watermark">Watermarking</a>
+        <a href="#pp-keep-rules">Keep rules</a>
+        <a href="#pp-trial-mode">Trial mode</a>
+      </aside>
     </div>
   </div>
 </section>
 
 <footer class="site">
-  <div class="wrap">
-    <div>
-      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
-      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="brand">RJNI</a>
+      <p class="footer-tagline">A Java native obfuscator. Bytecode to Rust, compiled, relinked through JNI. rjni.dev</p>
     </div>
     <div>
       <h4>Product</h4>
-      <a href="/docs.html">Docs</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/purchase.html">Get a license</a>
     </div>
     <div>
       <h4>Legal</h4>
@@ -124,5 +374,6 @@
   </div>
 </footer>
 
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

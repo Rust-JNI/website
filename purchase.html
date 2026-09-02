@@ -3,76 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get a license</title>
+<script>(function(){try{var t=localStorage.getItem('rjni-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<title>Get a licence — RJNI</title>
+<meta name="description" content="Start a licence request for RJNI. Checkout is not yet live — this page shows what the flow will collect.">
+<meta property="og:title" content="Get a licence — RJNI">
+<meta property="og:description" content="Start a licence request for RJNI. Checkout is not yet live — this page shows what the flow will collect.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rjni.dev/purchase.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&family=Josefin+Sans:wght@600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <nav class="site">
-  <div class="wrap">
-    <a href="/" class="brand"><span class="bracket">[</span>rjni<span class="bracket">]</span></a>
-    <div class="links">
-      <a href="/docs.html">Docs</a>
+  <div class="nav-inner">
+    <a href="/" class="brand">RJNI</a>
+    <div class="nav-links">
+      <a href="/#proof">Product</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/#defeats">Threat model</a>
-      <a href="/#faq">FAQ</a>
-      <a href="/purchase.html" class="cta">Get a license</a>
+    </div>
+    <div class="nav-right">
+      <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Toggle colour theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+      </button>
+      <a href="/pricing.html" class="btn btn-primary btn-sm desktop-only">View pricing</a>
+      <button type="button" class="icon-btn nav-toggle" data-nav-toggle aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
   </div>
 </nav>
 
+<div id="mobileNav" hidden>
+  <div class="wrap">
+    <a href="/#proof">Product</a>
+    <a href="/#how-it-works">How it works</a>
+    <a href="/#compatibility">Compatibility</a>
+    <a href="/docs.html">Documentation</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/pricing.html" class="btn btn-primary btn-block">View pricing</a>
+  </div>
+</div>
+
 <header class="hero" style="padding-bottom: 20px;">
   <div class="wrap">
-    <div class="offset"><span>Checkout</span></div>
-    <h1 style="max-width: none; font-size: 2rem;">Get a license.</h1>
+    <div class="hero-kicker">Licence request</div>
+    <h1 style="max-width: none; font-family: var(--sans); font-weight: 650; font-size: 2.1rem;">Get a licence.</h1>
   </div>
 </header>
 
 <section style="padding-top: 8px;">
   <div class="wrap" style="max-width: 560px;">
     <div class="notice warn" style="margin-bottom: 24px;">
-      This is a placeholder checkout. No payment is processed and no license is issued. Real
-      purchasing is wired to a licensing platform once that work is done.
+      This is not a live checkout. No payment is taken and no licence is issued here. Real
+      purchasing goes through a licensing platform once that integration is complete.
     </div>
 
-    <div class="manifest" id="planSelect">
-      <div class="head"><span>manifest.txt</span><span>draft</span></div>
+    <div class="order-panel" id="planSelect">
+      <div class="head"><span>request.txt</span><span>draft</span></div>
       <div class="body">
         <div class="field">
           <label for="plan">Plan</label>
           <select id="plan">
-            <option value="indie" data-price="149">Indie, $149 per project per year</option>
-            <option value="team" data-price="499">Team, $499 per project per year</option>
+            <option value="indie">Indie — one project, one activation</option>
+            <option value="team">Team — one project, five activations</option>
           </select>
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input type="email" id="email" placeholder="you@example.com">
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
         </div>
         <div class="field">
           <label for="project">Project name</label>
-          <input type="text" id="project" placeholder="acme-launcher">
+          <input type="text" id="project" placeholder="acme-launcher" autocomplete="off">
         </div>
         <div class="line total tnum">
-          <span>total (demo)</span><span id="totalPrice">$149.00</span>
+          <span>total</span><span>TBC — pricing not yet set</span>
         </div>
-        <button class="btn btn-primary" style="width: 100%; margin-top: 20px; border: none;" onclick="submitDemo()">Continue, demo only</button>
+        <button type="button" class="btn btn-primary btn-block" style="margin-top: 20px; border: none;" onclick="submitDemo()">Continue — not a real purchase</button>
       </div>
     </div>
 
-    <div class="manifest" id="confirmBox" hidden>
-      <div class="head"><span>manifest.txt</span><span>demo</span></div>
+    <div class="order-panel" id="confirmBox" hidden>
+      <div class="head"><span>request.txt</span><span>demo</span></div>
       <div class="body">
-        <h3 style="font-size: 1rem; margin-bottom: 12px;">This is a demo.</h3>
+        <h3 style="font-size: 1rem; margin-bottom: 12px;">This is a demonstration.</h3>
         <p style="color: var(--ink-dim); font-size: 0.92rem;">
-          Nothing was charged and no license key was issued. Real checkout is not wired up yet.
-          When it is, this is where you would land after a successful purchase, with a license
-          key and a download link for the protection tool.
+          Nothing was charged and no licence key was issued. Once real checkout is live, this is
+          where you'd land after a successful purchase, with a licence key and a link to the
+          protection tool.
         </p>
-        <a href="/pricing.html" class="btn btn-line" style="width: 100%; text-align: center; display: block; margin-top: 18px;">Back to pricing</a>
+        <a href="/pricing.html" class="btn btn-line btn-block" style="text-align: center; margin-top: 18px;">Back to pricing</a>
       </div>
     </div>
 
@@ -83,16 +110,17 @@
 </section>
 
 <footer class="site">
-  <div class="wrap">
-    <div>
-      <div class="brand" style="margin-bottom: 10px;"><span class="bracket">[</span>rjni<span class="bracket">]</span></div>
-      <p class="lede">Java bytecode, compiled to native Rust, obfuscated. rjni.dev</p>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="brand">RJNI</a>
+      <p class="footer-tagline">A Java native obfuscator. Bytecode to Rust, compiled, relinked through JNI. rjni.dev</p>
     </div>
     <div>
       <h4>Product</h4>
-      <a href="/docs.html">Docs</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#compatibility">Compatibility</a>
+      <a href="/docs.html">Documentation</a>
       <a href="/pricing.html">Pricing</a>
-      <a href="/purchase.html">Get a license</a>
     </div>
     <div>
       <h4>Legal</h4>
@@ -108,24 +136,16 @@
   </div>
 </footer>
 
+<script src="/assets/site.js" defer></script>
 <script>
-  document.getElementById('plan').addEventListener('change', function () {
-    var price = this.options[this.selectedIndex].getAttribute('data-price');
-    document.getElementById('totalPrice').textContent = '$' + parseFloat(price).toFixed(2);
-  });
-
   var params = new URLSearchParams(window.location.search);
   var initialPlan = params.get('plan');
   if (initialPlan) {
     var select = document.getElementById('plan');
     for (var i = 0; i < select.options.length; i++) {
-      if (select.options[i].value === initialPlan) {
-        select.selectedIndex = i;
-        select.dispatchEvent(new Event('change'));
-      }
+      if (select.options[i].value === initialPlan) { select.selectedIndex = i; }
     }
   }
-
   function submitDemo() {
     document.getElementById('planSelect').hidden = true;
     document.getElementById('confirmBox').hidden = false;
