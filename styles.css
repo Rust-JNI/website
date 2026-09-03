@@ -652,8 +652,16 @@ table.price-table .cta-row td { text-align: center; padding-top: 22px; border-bo
   color: var(--ink-dimmer);
   margin: 0 0 8px;
 }
-.docs-sidebar a { display: block; color: var(--ink-dim); padding: 4px 0; }
+.docs-sidebar a { display: block; color: var(--ink-dim); padding: 4px 0 4px 9px; margin-left: -9px; border-left: 2px solid transparent; }
 .docs-sidebar a:hover { color: var(--accent-text); text-decoration: none; }
+.docs-sidebar a[aria-current="page"] { color: var(--ink); font-weight: 600; border-left-color: var(--accent); }
+.docs-breadcrumb {
+  font-family: var(--mono); font-size: 0.78rem; color: var(--ink-dimmer);
+  margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+}
+.docs-breadcrumb a { color: var(--ink-dimmer); }
+.docs-breadcrumb a:hover { color: var(--accent-text); text-decoration: none; }
+.docs-status-line { display: flex; align-items: center; gap: 12px; margin: -6px 0 22px; flex-wrap: wrap; }
 .docs-toc { position: sticky; top: 78px; font-size: 0.8rem; }
 .docs-toc h5 {
   font-family: var(--mono);

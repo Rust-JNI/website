@@ -79,6 +79,14 @@
     });
   });
 
+  // Mark the current page in the docs sidebar (static HTML is identical across
+  // every docs page, so this is the only way to reflect "you are here").
+  var here = window.location.pathname.replace(/\/index\.html$/, "/");
+  document.querySelectorAll(".docs-sidebar a[href]").forEach(function (a) {
+    var href = a.getAttribute("href").replace(/\/index\.html$/, "/");
+    if (href === here) a.setAttribute("aria-current", "page");
+  });
+
   // Copy-to-clipboard on documentation code blocks
   document.querySelectorAll(".pre-wrap").forEach(function (wrap) {
     var pre = wrap.querySelector("pre");
